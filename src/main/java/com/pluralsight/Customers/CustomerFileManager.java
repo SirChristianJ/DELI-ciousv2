@@ -28,7 +28,6 @@ public class CustomerFileManager {
             LocalDateTime date = LocalDateTime.now();
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd-hhmmss");
             String datePosted = date.format(formatter);
-            /*String header = bfw.write();*/
             for(Order order: account.getCustomer().getOrders()){
                 BufferedWriter bfw = new BufferedWriter(new FileWriter(accountIDFolderPath + datePosted));
                 bfw.write(order.encodedString());

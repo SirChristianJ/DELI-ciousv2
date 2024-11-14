@@ -1,0 +1,15 @@
+Size: 4 inches
+Bread: white
+Meat: [steak]
+Cheese: [cheddar]
+Toppings: [lettuce]
+Price: $7.25
+Size: 8 inches
+Bread: italian
+Meat: [bacon, steak]
+Cheese: [cheddar, swiss]
+Toppings: [tomatoes]
+Price: $12.10
+
+Chips: fritos
+Total Price: $20.85

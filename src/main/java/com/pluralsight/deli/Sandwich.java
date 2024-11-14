@@ -51,7 +51,10 @@ public class Sandwich implements ICalculable {
     }
 
     public void setLength(int length) {
-        this.length = length;
+        if(length==4 || length==8 || length==12) {
+            this.length = length;
+        }
+        else throw new RuntimeException("Size not available.");
     }
 
     public void setBread(String bread) {
@@ -119,7 +122,9 @@ public class Sandwich implements ICalculable {
     @Override
     public String toString(){
         StringBuilder sb = new StringBuilder();
-        sb.append(String.format("Size: %d inches", this.getLength())).append("\nBread: " + this.getBread()).append("\nMeat: " + this.getMeat()).append("\nCheese: " + this.getCheese()).append("\nToppings: " + this.getToppings()).append(String.format("\nPrice: $%.2f", this.calculatePrice()));
+        sb.append(String.format("Size: %d inches", this.getLength()))
+                .append("\nBread: " + this.getBread())
+                .append("\nMeat: " + this.getMeat()).append("\nCheese: " + this.getCheese()).append("\nToppings: " + this.getToppings()).append(String.format("\nPrice: $%.2f", this.calculatePrice()));
         return sb.toString();
     }
 }

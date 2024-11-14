@@ -127,11 +127,11 @@ public class Order implements ICalculable, IEncoded {
     @Override
     public String encodedString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(getSandwiches());
-        getDrinkMap().keySet().forEach(s -> sb.append("|").append(s));
-        getDrinkMap().values().forEach(s -> sb.append("|").append(s));
+        getSandwiches().forEach(s -> sb.append(s).append("\n"));
+        getDrinkMap().keySet().forEach(s -> sb.append("\nDrink: ").append(s));
+        getDrinkMap().values().forEach(s -> sb.append("\nDrink Size: ").append(s));
 
-        getChipsList().forEach(s -> sb.append("|").append(s));
+        getChipsList().forEach(s -> sb.append("\nChips: ").append(s));
 
 
         sb.append(String.format("\nTotal Price: $%.2f", this.calculatePrice()));

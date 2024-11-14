@@ -176,38 +176,46 @@ public class UserInterface {
             }
         }while (true);
     }
-
+    /**
+     *  This processAddSandwich method is used to build a sandwich and
+     *   add those newly created sandwiches to a list of sandwiches*/
     public List<Sandwich> processAddSandwich(){
         List<Sandwich> sandwichList = new ArrayList<>();
-        /*Create an empty order*/
         boolean continueAdding = true;
         do{
-            /*Create an empty sandwich*/
-            Sandwich sandwich = new Sandwich();
-            /*Calls static utility class console to prompt for user input*/
-            int sandwichLength = Console.PromptForInt("Sandwich Size: ");
-            /*Build the sandwich using helper methods*/
-            sandwich.setLength(sandwichLength);
-            sandwich.setBread(processBreadInformation());
-            processMeatInformation(sandwich);
-            processCheeseInformation(sandwich);
-            processRegularToppingInformation(sandwich);
+            try{ /*Create an empty sandwich*/
+                Sandwich sandwich = new Sandwich();
+                /*Calls static utility class console to prompt for user input*/
+                int sandwichLength = Console.PromptForInt("Sandwich Size: ");
+                /*Build the sandwich using helper methods*/
+                sandwich.setLength(sandwichLength);
+                sandwich.setBread(processBreadInformation());
+                processMeatInformation(sandwich);
+                processCheeseInformation(sandwich);
+                processRegularToppingInformation(sandwich);
 
-            System.out.println("\n" + sandwich);
-            boolean isCorrectOrder = Console.PromptForYesNo("Is your sandwich correct ?");
-            if (isCorrectOrder) {
-                sandwichList.add(sandwich);
-            }
+                System.out.println("\n" + sandwich);
+                boolean isCorrectOrder = Console.PromptForYesNo("Is your sandwich correct ?");
+                if (isCorrectOrder) {
+                    sandwichList.add(sandwich);
+                }
 
-            boolean wantsAnotherSandwich = Console.PromptForYesNo("Would you like to add another sandwich? ");
-            if (!wantsAnotherSandwich){
-                continueAdding = false;
+                boolean wantsAnotherSandwich = Console.PromptForYesNo("Would you like to add another sandwich? ");
+                if (!wantsAnotherSandwich) {
+                    continueAdding = false;
+                }
+            } catch (RuntimeException e) {
+                System.out.println(e.getMessage());
             }
 
         }while(continueAdding);
 
         return sandwichList;
     }
+
+    /**
+     *  Helper methods to process each aspect of building a sandwich as well as processing
+     *  drinks and chips for the later creation of an order*/
     public String processBreadInformation(){
         do{
             try {
@@ -375,6 +383,8 @@ public class UserInterface {
 
         return chipType;
     }
+    /**
+     *  Writes order receipt to file*/
     public void processCheckout(Account a,List<Sandwich> s, Map<String,String> d, List<String> c ){
         Order order = new Order(s,d,c);
         List<Order> ordersList = new ArrayList<>();
@@ -385,58 +395,6 @@ public class UserInterface {
         a.getCustomer().setOrders(ordersList);
         CustomerFileManager.writeToCSV(a);
         System.out.println(order + "\n");
-        /*order.setSandwiches(s);
-        order.setDrinkSize(d[1]);
-        order.setDrinksType(d[0]);
-        order.setChips(c);*/
-        System.out.println(order);
     }
-    /*public Map<String, String> processAddDrink(){
-        Drinks drinks = new Drinks();
-        Map<String,String> customerDrinks = new HashMap<>();
-
-        boolean continueAdding = true;
-        do {
-            try{
-                Display.displayDrinkOptions();
-                String drinkSelection = Console.PromptForString("Enter drink: ");
-                String drinkSize = Console.PromptForString("Enter drink size: ");
-                if (drinks.isAvailable(drinkSelection)){
-                    customerDrinks.put(drinkSelection,drinkSize);
-                    continueAdding = false;
-                }
-                else {
-                    System.out.println("This drink is not available.");
-                }
-            } catch (Exception e) {
-                System.out.println(e.getMessage() + "<-- Error processing drink");
-            }
-        }while (continueAdding);
-
-        return customerDrinks;
-    }
-    public List<String> processAddChips(){
-        Chips chips = new Chips();
-        List<String> customerChips = new ArrayList<>();
-        boolean continueAdding = true;
-        do {
-            try{
-                Display.displayChipOptions();
-                String chipsSelection = Console.PromptForString("Enter chip: ");
-                if (chips.isAvailable(chipsSelection)){
-                    customerChips.add(chipsSelection);
-                    continueAdding = false;
-                }
-                else {
-                    System.out.println("This chip is not available.");
-                }
-            } catch (Exception e) {
-                System.out.println(e.getMessage() + "<-- Error processing chips");
-            }
-        }while (continueAdding);
-
-        return customerChips;
-    }*/
-
 
 }
