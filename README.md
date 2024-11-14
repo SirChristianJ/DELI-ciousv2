@@ -10,6 +10,7 @@ To start things off, we will be prompted whether or not we have an account. If w
 ![intro screen](https://github.com/SirChristianJ/DELI-ciousv2/blob/main/capstone2pic1.jpg)
 
 Let us use an existing account located in `Accounts.csv` and create an order as that user!
+
 **Here is the Accounts CSV contents**
 ![accounts csv](https://github.com/SirChristianJ/DELI-ciousv2/blob/main/capstone2pic2.jpg)
 
