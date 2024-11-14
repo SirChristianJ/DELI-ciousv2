@@ -20,7 +20,8 @@ public class CustomerFileManager {
     /*public static List<Order> readFromCSV(){
 
     }*/
-    public static void writeToCSV(com.pluralsight.Accounts.Account account){
+
+    public static void writeToCSV(Account account){
         try{
             String accountIDFolderPath = dataDirectory + account.getId() + "/";
             Path path = Paths.get(accountIDFolderPath);

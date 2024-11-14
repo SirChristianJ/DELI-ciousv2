@@ -141,7 +141,10 @@ public class UserInterface {
      *  Second level menu provides user with options pertaining to creating an order*/
     public void orderScreen(Account a){
         List<Sandwich> sandwiches = new ArrayList<>();
+/*
         Map<String,String> drinkMap = new HashMap<>();
+*/
+        List<List<String>> drinkArray = new ArrayList<>();
         List<String> chipList = new ArrayList<>();
 
         do{
@@ -164,11 +167,13 @@ public class UserInterface {
             switch (userSelection) {
                 case 1 -> sandwiches = processAddSandwich().stream().toList();
                 case 2 -> {
-                    String[] drinkParameters = processAddDrink();
-                    drinkMap.put(drinkParameters[0],drinkParameters[1]);
+                    List<String> drinkParameters = processAddDrink();
+                    /*drinkMap.put(drinkParameters[0],drinkParameters[1]);*/
+                    drinkArray.add(drinkParameters);
+                    
                 }
                 case 3 -> chipList.add(processAddChips());
-                case 4 -> processCheckout(a,sandwiches, drinkMap, chipList);
+                case 4 -> processCheckout(a,sandwiches, drinkArray, chipList);
                 case 0 -> {
                     System.out.println("Canceling order... ");
                     return;
@@ -341,7 +346,8 @@ public class UserInterface {
         return regularToppingsList;
     }
 
-    public String[] processAddDrink(){
+    public List<String> processAddDrink(){
+        List<String> drinkList = new ArrayList<>();
         Display.displayDrinkOptions();
         String drinkSize = "";
         String drinkType = "";
@@ -353,6 +359,7 @@ public class UserInterface {
                     drinkType = Console.PromptForString("Enter your drink: ");
                     if (drinks.isAvailable(drinkType)) {
                         isNotAvailable = false;
+                        drinkList.add(drinkSize);
                     }
             }
             catch (Exception e){
@@ -361,7 +368,7 @@ public class UserInterface {
 
         }while (isNotAvailable);
 
-        return new String[]{drinkType,drinkSize};
+        return drinkList;
     }
     public String processAddChips(){
         Display.displayChipOptions();
@@ -385,7 +392,7 @@ public class UserInterface {
     }
     /**
      *  Writes order receipt to file*/
-    public void processCheckout(Account a,List<Sandwich> s, Map<String,String> d, List<String> c ){
+    public void processCheckout(Account a,List<Sandwich> s, /*Map<String,String> d*/ List<List<String>> d, List<String> c ){
         Order order = new Order(s,d,c);
         List<Order> ordersList = new ArrayList<>();
         /**
