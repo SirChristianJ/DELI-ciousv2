@@ -4,3 +4,10 @@ I challenged myself to incorporate interfaces and streams as those were the late
 
 ![Capstone 2 diagram](https://github.com/SirChristianJ/DELI-ciousv2/blob/main/capstone2diagram%20(1).jpg)
 
+**Let's create a simple order together!**
+
+To start things off, we will be prompted whether or not we have an account. If we do, then we will be prompted to confirm credentials. Otherwise, we will be taken to an account creation screen.
+
+Let us use an existing account located in `Accounts.csv` and create an order as that user!
+
+
