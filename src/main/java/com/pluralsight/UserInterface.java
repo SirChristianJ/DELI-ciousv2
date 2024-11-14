@@ -32,10 +32,10 @@ public class UserInterface {
         do{
             String welcomePrompt =
                     """
-                    ______________________________________
-                   ||                                    ||
-                   ||  Welcome to DELI-cious Sandwiches! ||
-                   ||____________________________________||
+                         ______________________________________
+                        ||                                    ||
+                        ||  Welcome to DELI-cious Sandwiches! ||
+                        ||____________________________________||
                             
                     """;
             System.out.println(welcomePrompt);
@@ -57,12 +57,14 @@ public class UserInterface {
         try{
             String signupMenu =
                     """
-                     ______________________________________
-                    ||                                    ||
-                    ||        Lets create an account!     ||
-                    ||____________________________________||
+                          ______________________________________
+                         ||                                    ||
+                         ||        Lets create an account!     ||
+                         ||____________________________________||
                     
                     """;
+            System.out.println(ColorCodes.BLACK_BACKGROUND);
+            System.out.println(ColorCodes.YELLOW);
             System.out.println(signupMenu + "\n");
             String userFirstName = Console.PromptForString("Enter first name: ");
             String userLastName = Console.PromptForString("Enter last name: ");
@@ -93,15 +95,17 @@ public class UserInterface {
 
         String verifyMenu =
                 """
-                ______________________________________
-               ||                                    ||
-               ||  Account Successfully Verified!    ||
-               ||____________________________________||
-                        
-                """;
+                      ______________________________________
+                     ||                                    ||
+                     ||  Account Successfully Verified!    ||
+                     ||____________________________________||
+               
+               """;
 
         for(Account a: AccountFileManager.readFromCSV()){
             if(verifyAccount.getCustomer().encodedString().equalsIgnoreCase(a.getCustomer().encodedString())){
+                System.out.println(ColorCodes.BLACK_BACKGROUND);
+                System.out.println(ColorCodes.YELLOW);
                 System.out.println(verifyMenu);
                 homeScreen(a);
             }
@@ -113,16 +117,18 @@ public class UserInterface {
     public void homeScreen(Account a){
         do{
             try {
-                String startMenu = """
+                String startMenu =
+                 """
                          ______________________________________
                         ||                                    ||
                         ||  Welcome to DELI-cious Sandwiches! ||
                         ||____________________________________||
-                        
+                
                             1) New Order
                             0) Exit Application
         
-                        """;
+                """;
+                System.out.println(ColorCodes.BLACK_BACKGROUND);
                 System.out.println(ColorCodes.YELLOW);
                 System.out.println(startMenu);
                 int menuChoice = Console.PromptForInt(String.format("Welcome, %s! \nPlease selection an option: ", a.getCustomer().getFirstName()));
@@ -149,18 +155,22 @@ public class UserInterface {
 
         do{
             String orderMenu =
-                    """  
-                            _______________________________________
-                            ||                                   ||
-                            ||           Order Screen            ||
-                            ||___________________________________||
-                   
-                            1)Add Sandwich
-                            2)Add Drink
-                            3)Add Chips
-                            4)Checkout
-                            0)Cancel Order 
-                    """;
+                   """  
+                        ___________________________________________________
+                        |      _______________________________________     |
+                        |      ||                                   ||     |
+                        |      ||           Order Screen            ||     |
+                        |      ||___________________________________||     |
+                        |                                                  |
+                        |      1)Add Sandwich                              |
+                        |      2)Add Drink                                 |
+                        |      3)Add Chips                                 |
+                        |      4)Checkout                                  |
+                        |      0)Cancel Order                              |
+                        |__________________________________________________|
+                   """;
+            System.out.println(ColorCodes.WHITE_BACKGROUND);
+            System.out.println(ColorCodes.BLACK);
             System.out.println(orderMenu);
             int userSelection = Console.PromptForInt("Please selection an option.");
 
@@ -191,6 +201,7 @@ public class UserInterface {
             try{ /*Create an empty sandwich*/
                 Sandwich sandwich = new Sandwich();
                 /*Calls static utility class console to prompt for user input*/
+                Display.displaySizeOptions();
                 int sandwichLength = Console.PromptForInt("Sandwich Size: ");
                 /*Build the sandwich using helper methods*/
                 sandwich.setLength(sandwichLength);
