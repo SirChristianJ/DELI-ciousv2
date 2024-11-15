@@ -1,16 +1,17 @@
 #**Table of Contents**
 1. [Introduction](#introduction)
 2. [Lets start this walk through!](#start)
-   -[Accounts CSV Contents](#accounts)
+   - [Accounts CSV Contents](#accounts)
 3. [Let us build a sandwich!](#sandwich)
-   -[Bread](#bread)
-   -[Meat](#meat)
-   -[Cheese](#cheese)
-   -[Regular Toppings](#toppings)
+   - [Bread](#bread)
+   - [Meat](#meat)
+   - [Cheese](#cheese)
+   - [Regular Toppings](#toppings)
 5. [Let us add more to this order!](#ordermenu)
-   -[Drinks](#drinks)
+   - [Drinks](#drinks)
 6. [Lets checkout](#checkout)
 7. [Final Result](#result)
+8. [Interesting Code Snippet](#snippet)
 
 
 ## Introduction
@@ -76,3 +77,26 @@ Let us enter our sandwich contents, shall we ?
 ![folder structure](https://github.com/SirChristianJ/DELI-ciousv2/blob/main/capstone2pic16.jpg)
 ![receipt](https://github.com/SirChristianJ/DELI-ciousv2/blob/main/capstone2pic17.jpg)
 
+## Snippet
+**A code snippet I'd like to show is fairly simple but fairly effecient and effective**
+Here we have a `private final static String dataDirectory = "CustomerInformation/";`, which then appends current users ID `account.getId()` to our `dataDirectory` string. Our string is then converted to a Path and a new directory is created with that path. We then iterate through the active users orders via `for(Order order: account.getCustomer().getOrders())` and write a csv file representing the receipt of the order named after the timestamp the order was placed.
+
+```java
+public static void writeToCSV(Account account){
+        try{
+            String accountIDFolderPath = dataDirectory + account.getId() + "/";
+            Path path = Paths.get(accountIDFolderPath);
+            Files.createDirectories(path);
+            LocalDateTime date = LocalDateTime.now();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd-hhmmss");
+            String datePosted = date.format(formatter);
+            for(Order order: account.getCustomer().getOrders()){
+                BufferedWriter bfw = new BufferedWriter(new FileWriter(accountIDFolderPath + datePosted));
+                bfw.write(order.encodedString());
+                bfw.close();
+            }
+        }
+        catch(IOException e){
+            System.out.println(e.getMessage() + "<---File write error when producing order history.");
+        }
+    }
