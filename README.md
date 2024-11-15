@@ -1,4 +1,4 @@
-#**Table of Contents**
+## **Table of Contents**
 1. [Introduction](#introduction)
 2. [Lets start this walk through!](#start)
    - [Accounts CSV Contents](#accounts)
