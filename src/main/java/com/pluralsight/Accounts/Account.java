@@ -6,7 +6,7 @@ import com.pluralsight.iterfaces.IEncoded;
 import java.util.UUID;
 
 public class Account implements IEncoded {
-    private String id ;
+    private String id;
     private Customer customer;
 
     public Account(Customer customer) {

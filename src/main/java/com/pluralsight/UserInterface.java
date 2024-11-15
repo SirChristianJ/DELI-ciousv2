@@ -63,6 +63,14 @@ public class UserInterface {
                          ||____________________________________||
                     
                     """;
+            String accountValidated =
+                    """
+                          ______________________________________
+                         ||                                    ||
+                         ||    Account Created Successfully!   ||
+                         ||____________________________________||
+                    
+                    """;
             System.out.println(ColorCodes.BLACK_BACKGROUND);
             System.out.println(ColorCodes.YELLOW);
             System.out.println(signupMenu + "\n");
@@ -75,6 +83,8 @@ public class UserInterface {
             Account account = new Account(customer);
             AccountFileManager.addAccount(account);
             AccountFileManager.writeToCSV();
+            System.out.println(accountValidated);
+
             homeScreen(account);
         }
         catch (InputMismatchException e){
@@ -85,31 +95,47 @@ public class UserInterface {
     /**
      * Verify account information */
     public void verifyUserScreen(){
-        String userFirstName = Console.PromptForString("Enter first name: ");
-        String userLastName = Console.PromptForString("Enter last name: ");
-        String userEmail = Console.PromptForString("Enter your email: ");
-        String userPhoneNumber = Console.PromptForString("Enter phone number: ");
+        boolean tryAgain = true;
+        boolean exit = false;
+        do{
+            String userFirstName = Console.PromptForString("Enter first name: ");
+            String userLastName = Console.PromptForString("Enter last name: ");
+            String userEmail = Console.PromptForString("Enter your email: ");
+            String userPhoneNumber = Console.PromptForString("Enter phone number: ");
+            Customer verifyCustomer = new Customer(userFirstName,userLastName,userEmail,userPhoneNumber);
+            Account verifyAccount = new Account(verifyCustomer);
+            System.out.println("\nIf credentials match you will continue to the next menu, else you'll be prompted again for credentials.");
 
-        Customer verifyCustomer = new Customer(userFirstName,userLastName,userEmail,userPhoneNumber);
-        Account verifyAccount = new Account(verifyCustomer);
 
-        String verifyMenu =
+            String verifyMenu =
                 """
-                      ______________________________________
-                     ||                                    ||
-                     ||  Account Successfully Verified!    ||
-                     ||____________________________________||
-               
+                         _____________________________________
+                        ||                                   ||
+                        ||  Account Successfully Verified!   ||
+                        ||___________________________________||
                """;
 
-        for(Account a: AccountFileManager.readFromCSV()){
-            if(verifyAccount.getCustomer().encodedString().equalsIgnoreCase(a.getCustomer().encodedString())){
-                System.out.println(ColorCodes.BLACK_BACKGROUND);
-                System.out.println(ColorCodes.YELLOW);
-                System.out.println(verifyMenu);
-                homeScreen(a);
+
+            for (Account a : AccountFileManager.readFromCSV()) {
+                if (a.getCustomer().encodedString().equalsIgnoreCase(verifyAccount.getCustomer().encodedString())) {
+                    System.out.println(ColorCodes.BLACK_BACKGROUND);
+                    System.out.println(ColorCodes.YELLOW);
+                    System.out.println(verifyMenu);
+                    homeScreen(a);
+                    tryAgain = false;
+                    return;
+                }
+                else{
+                    tryAgain = true;
+                }
             }
-        }
+
+            exit = Console.PromptForYesNo("Would you like to exit to previous menu ?");
+            if(exit){
+                promptUserForAccount();
+            }
+
+        }while(tryAgain);
     }
 
     /**
@@ -359,11 +385,11 @@ public class UserInterface {
 
     public List<String> processAddDrink(){
         List<String> drinkList = new ArrayList<>();
-        Display.displayDrinkOptions();
         String drinkSize = "";
         String drinkType = "";
         boolean isNotAvailable = true;
         do{
+            Display.displayDrinkOptions();
             try{
                     drinkSize = Console.PromptForString("Enter size for drink: ");
                     Drinks drinks = new Drinks();
@@ -371,6 +397,10 @@ public class UserInterface {
                     if (drinks.isAvailable(drinkType)) {
                         isNotAvailable = false;
                         drinkList.add(drinkSize);
+                    }
+
+                    else{
+                        System.out.println("This is not an available drink. Try again!");
                     }
             }
             catch (Exception e){
@@ -411,8 +441,12 @@ public class UserInterface {
          * */
         ordersList.add(order);
         a.getCustomer().setOrders(ordersList);
-        CustomerFileManager.writeToCSV(a);
         System.out.println(order + "\n");
+        boolean isCheckingOut = Console.PromptForYesNo("Are you sure you want to check out?");
+        if(isCheckingOut)
+            CustomerFileManager.writeToCSV(a);
+        else
+            return;
     }
 
 }
